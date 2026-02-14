@@ -36,6 +36,9 @@
                                     Brouillon
                                 </span>
                             @endif
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                {{ $article->categorie->nom ?? 'Sans catégorie' }}
+                            </span>
                             <span class="text-blue-100 text-sm">
                                 Article #{{ $article->id }}
                             </span>
@@ -55,12 +58,12 @@
                 <div class="mt-8 pt-6 border-t border-gray-200">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
-                            <span class="font-semibold text-gray-600">Date de création :</span>
-                            <span class="text-gray-800 ml-2">{{ $article->created_at->format('d/m/Y à H:i') }}</span>
+                            <span class="font-semibold text-gray-600">Catégorie :</span>
+                            <span class="text-gray-800 ml-2">{{ $article->categorie->nom ?? 'N/A' }}</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-600">Dernière modification :</span>
-                            <span class="text-gray-800 ml-2">{{ $article->updated_at->format('d/m/Y à H:i') }}</span>
+                            <span class="font-semibold text-gray-600">Statut :</span>
+                            <span class="text-gray-800 ml-2">{{ $article->statut === 'publie' ? 'Publié' : 'Brouillon' }}</span>
                         </div>
                     </div>
                 </div>

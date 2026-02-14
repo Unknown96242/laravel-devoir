@@ -29,7 +29,7 @@
 
             <div class="mb-6">
                 <label for="titre" class="block text-gray-700 font-semibold mb-2">
-                    Titre de l'article
+                    Titre de l'article <span class="text-red-500">*</span>
                 </label>
                 <input
                     type="text"
@@ -44,8 +44,28 @@
             </div>
 
             <div class="mb-6">
+                <label for="categorie_id" class="block text-gray-700 font-semibold mb-2">
+                    Catégorie <span class="text-red-500">*</span>
+                </label>
+                <select
+                    name="categorie_id"
+                    id="categorie_id"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('categorie_id') border-red-500 @enderror">
+                    <option value="">-- Sélectionnez une catégorie --</option>
+                    @foreach($categories as $categorie)
+                        <option value="{{ $categorie->id }}" {{ old('categorie_id') == $categorie->id ? 'selected' : '' }}>
+                            {{ $categorie->nom }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('categorie_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-6">
                 <label for="contenu" class="block text-gray-700 font-semibold mb-2">
-                    Contenu de l'article
+                    Contenu de l'article <span class="text-red-500">*</span>
                 </label>
                 <textarea
                     name="contenu"
@@ -60,14 +80,14 @@
 
             <div class="mb-6">
                 <label for="statut" class="block text-gray-700 font-semibold mb-2">
-                    Statut
+                    Statut <span class="text-red-500">*</span>
                 </label>
                 <select
                     name="statut"
                     id="statut"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('statut') border-red-500 @enderror">
                     <option value="publie" {{ old('statut') == 'publie' ? 'selected' : '' }}>Publié</option>
-                    <option value="brouillon" {{ old('statut') == 'brouillon' ? 'selected' : '' }}>Brouillon</option>
+                    <option value="brouillon" {{ old('statut', 'brouillon') == 'brouillon' ? 'selected' : '' }}>Brouillon</option>
                 </select>
                 @error('statut')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

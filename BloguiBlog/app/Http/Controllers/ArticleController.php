@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -12,7 +13,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::with('categorie')->get();
         return view('articles.index', compact('articles'));
     }
 
@@ -21,7 +22,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $categories = Categorie::all();
+        return view('articles.create', compact('categories'));
     }
 
     /**
@@ -31,18 +33,22 @@ class ArticleController extends Controller
     {
         $validatedData = $request->validate([
             'titre' => 'required|string|max:255',
-            'contenu' => 'required|string|max:255',
-            'statut' => 'required|string|max:255',
-        ],[
-            'titre.required' => 'Le ntitreom est obligatoire',
+            'contenu' => 'required|string',
+            'statut' => 'required|string|in:publie,brouillon',
+            'categorie_id' => 'required|exists:categories,id',
+        ], [
+            'titre.required' => 'Le titre est obligatoire',
+            'titre.max' => 'Le titre ne peut pas dépasser 255 caractères',
             'contenu.required' => 'Le contenu est obligatoire',
             'statut.required' => 'Le statut est obligatoire',
-
+            'statut.in' => 'Le statut doit être soit "publié" soit "brouillon"',
+            'categorie_id.required' => 'La catégorie est obligatoire',
+            'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas',
         ]);
 
         Article::create($validatedData);
 
-        return back()->with('success', 'Article créé avec succès.');
+        return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
     }
 
     /**
@@ -50,6 +56,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $article->load('categorie');
         return view('articles.show', compact('article'));
     }
 
@@ -58,7 +65,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $categories = Categorie::all();
+        return view('articles.edit', compact('article', 'categories'));
     }
 
     /**
@@ -68,21 +76,22 @@ class ArticleController extends Controller
     {
         $validatedData = $request->validate([
             'titre' => 'required|string|max:255',
-            'contenu' => 'required|string|max:255',
-            'statut' => 'required|string|max:255',
-
-
-
-        ],[
-            'titre.required' => 'Le ntitreom est obligatoire',
+            'contenu' => 'required|string',
+            'statut' => 'required|string|in:publie,brouillon',
+            'categorie_id' => 'required|exists:categories,id',
+        ], [
+            'titre.required' => 'Le titre est obligatoire',
+            'titre.max' => 'Le titre ne peut pas dépasser 255 caractères',
             'contenu.required' => 'Le contenu est obligatoire',
             'statut.required' => 'Le statut est obligatoire',
-
+            'statut.in' => 'Le statut doit être soit "publié" soit "brouillon"',
+            'categorie_id.required' => 'La catégorie est obligatoire',
+            'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas',
         ]);
 
-        Article::update($validatedData);
+        $article->update($validatedData);
 
-        return redirect()->route('articles.index')->with('success', 'Articles mis à jour avec succès.');
+        return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès.');
     }
 
     /**

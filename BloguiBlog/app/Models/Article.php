@@ -11,7 +11,8 @@ class Article extends Model
     protected $fillable = [
         "titre",
         "contenu",
-        "statut"
+        "statut",
+        'categorie_id',
     ];
 
 

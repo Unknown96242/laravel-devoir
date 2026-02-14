@@ -6,8 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Blog')</title>
 
+    {{-- Tailwind CSS CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
+    {{-- Custom Styles --}}
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -17,6 +19,7 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+    {{-- Navigation --}}
     <nav class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -33,6 +36,9 @@
                     <a href="{{ route('articles.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         Articles
                     </a>
+                    <a href="{{ route('categories.index') }}" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        Catégories
+                    </a>
                     <a href="{{ route('articles.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150">
                         Créer un article
                     </a>
@@ -45,15 +51,8 @@
         @yield('content')
     </main>
 
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="text-center text-gray-500 text-sm">
-                <p>&copy; {{ date('Y') }} BLOGUIBLOG</p>
-            </div>
-        </div>
-    </footer>
 
-    {{-- Scripts --}}
+
     @stack('scripts')
 </body>
 </html>

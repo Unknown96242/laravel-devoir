@@ -12,7 +12,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = Categorie::all();
+        $categories = Categorie::withCount('articles')->get();
         return view('categories.index', compact('categories'));
     }
 
@@ -30,15 +30,16 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
-
-        ],[
+            'nom' => 'required|string|max:255|unique:categories,nom',
+        ], [
             'nom.required' => 'Le nom est obligatoire',
+            'nom.max' => 'Le nom ne peut pas dépasser 255 caractères',
+            'nom.unique' => 'Cette catégorie existe déjà',
         ]);
 
         Categorie::create($validatedData);
 
-        return back()->with('success', 'Categorie créé avec succès.');
+        return redirect()->route('categories.index')->with('success', 'Catégorie créée avec succès.');
     }
 
     /**
@@ -46,6 +47,7 @@ class CategorieController extends Controller
      */
     public function show(Categorie $categorie)
     {
+        $categorie->load('articles');
         return view('categories.show', compact('categorie'));
     }
 
@@ -54,7 +56,8 @@ class CategorieController extends Controller
      */
     public function edit(Categorie $categorie)
     {
-        return view('categories.edit',compact('categorie') );
+        // $categorie->loadCount('articles');
+        return view('categories.edit', compact('categorie'));
     }
 
     /**
@@ -63,14 +66,16 @@ class CategorieController extends Controller
     public function update(Request $request, Categorie $categorie)
     {
         $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
-        ],[
+            'nom' => 'required|string|max:255|unique:categories,nom,' . $categorie->id,
+        ], [
             'nom.required' => 'Le nom est obligatoire',
+            'nom.max' => 'Le nom ne peut pas dépasser 255 caractères',
+            'nom.unique' => 'Cette catégorie existe déjà',
         ]);
 
         $categorie->update($validatedData);
 
-        return redirect()->route('categories.index')->with('success', 'Categorie mis à jour avec succès.');
+        return redirect()->route('categories.index')->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     /**
@@ -79,6 +84,6 @@ class CategorieController extends Controller
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
-        return redirect()->route('categories.index')->with('success', 'Categorie supprimé avec succès.');
+        return redirect()->route('categories.index')->with('success', 'Catégorie supprimée avec succès.');
     }
 }
