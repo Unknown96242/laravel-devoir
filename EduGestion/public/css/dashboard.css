@@ -1,0 +1,147 @@
+/* Avatar dans le tableau */
+.student-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--light-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    margin-right: 12px;
+}
+
+#content main .table-data .order table tr td:first-child {
+    display: flex;
+    align-items: center;
+}
+
+/* Empty state petit */
+.empty-state-small {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state-small i {
+    font-size: 48px;
+    color: var(--dark-grey);
+    margin-bottom: 12px;
+}
+
+.empty-state-small p {
+    color: var(--dark-grey);
+    font-size: 14px;
+}
+
+/* Actions rapides */
+.action-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--grey);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-item:hover {
+    background: var(--light-blue);
+    transform: translateX(4px);
+}
+
+.action-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--dark);
+    text-decoration: none;
+    flex-grow: 1;
+}
+
+.action-item a i {
+    font-size: 20px;
+    color: var(--blue);
+}
+
+.action-item a span {
+    font-weight: 500;
+}
+
+.action-item > i {
+    color: var(--dark-grey);
+    font-size: 20px;
+}
+
+/* Mini stats */
+.mini-stats {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mini-stat {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--grey);
+    border-radius: 12px;
+}
+
+.mini-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.mini-stat-icon.blue {
+    background: linear-gradient(135deg, var(--blue), var(--light-blue));
+}
+
+.mini-stat-icon.yellow {
+    background: linear-gradient(135deg, var(--yellow), var(--light-yellow));
+}
+
+.mini-stat-text h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+}
+
+.mini-stat-text p {
+    font-size: 13px;
+    color: var(--dark-grey);
+    margin: 0;
+}
+
+/* Dark mode */
+html.dark .action-item {
+    background: var(--grey);
+}
+
+html.dark .action-item:hover {
+    background: rgba(60, 145, 230, 0.15);
+}
+
+html.dark .mini-stat {
+    background: var(--grey);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .table-data {
+        flex-direction: column;
+    }
+}
